@@ -87,7 +87,7 @@ if ($response->state == 'open.running') {
 }
 ```
 If the response has the **user approval link** you will be redirected to the **SlimPay checkout page**.
-Once you have filled the checkout form, a detailed response will be sent to the **Server Notification URI** set in your 
+Once you have filled the checkout form, a detailed response will be sent to the **Server notification URI** set in your 
 SlimPay application, containing the **credit card ID** and **reference ID** to be sent to your Payment Gateway to finish the flow.
 [Server Notification Reference](https://support.slimpay.com/hc/en-us/articles/360001565338-URLs-Management)  
 
@@ -128,10 +128,15 @@ $response     = $notification->getResponse();
 ### Authentication
 - [x] Authentication flow
 
-### Iframe
-- [ ] Create orders
+### Credit card Iframe
+- [x] Create order
+- [x] Iframe redirect
+- [x] Get notification response to retrieve the card and reference IDs
+
+### SEPA Iframe
+- [ ] Create order
 - [ ] Iframe redirect
-- [ ] Get token
+- [ ] Get notification response to retrieve the RUM
 
 ### Testing
 - [ ] Unit testing
