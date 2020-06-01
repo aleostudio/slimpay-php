@@ -65,7 +65,7 @@ class Client
         $data = [
             'headers' => [
                 'User-Agent'    => $this->userAgent,
-                'Accept'        => 'application/hal+json; profile='.$this->config['profileUri'].'/alps/'.$this->config['apiVersion'],
+                'Accept'        => 'application/hal+json; profile="'.$this->config['profileUri'].'/alps/'.$this->config['apiVersion'].'"',
                 'Content-type'  => 'application/json',
                 'Authorization' => 'Bearer '.$this->getToken()->access_token
             ]

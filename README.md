@@ -44,12 +44,43 @@ $slimpayConfig = [
     'apiVersion' => 'v1'
 ];
 
-
 // Instance.
 $slimpay = new SlimPayIframe($slimpayConfig);
 
 ...
 ```
+
+<br />
+
+## Server notification
+
+It is possible to handle the **SlimPay server notification**.
+To instantiate the notification handler, write these lines:
+```php
+$notification = new SlimPayNotification();
+$response     = $notification->getResponse();
+```
+
+<br />
+
+If you want to **log the notification response**, you can inject you custom logger as parameter.
+Pay attention that your logger must have a "**write()**" method inside, as shown in this simple example below.
+```php
+class Log
+{
+    public function write($input)
+    {
+        $path = "./slimpay_notifications.log";
+        error_log(json_encode($input), 3, $path);
+    }
+}
+
+$customLog    = new Log;
+$notification = new SlimPayNotification($customLog);
+$response     = $notification->getResponse();
+```
+
+<br />
 
 ## TODO
 
