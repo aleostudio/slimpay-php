@@ -1,0 +1,17 @@
+/.idea
+/api
+/docs
+/public
+/output
+/vendor
+composer.lock
+composer.phar
+test.php
+.phpintel
+/nbproject
+.php_cs
+.php_cs.cache
+.phpstorm.meta.php
+._*
+.DS_Store
+test.php
