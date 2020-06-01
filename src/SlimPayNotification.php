@@ -47,11 +47,6 @@ class SlimPayNotification
      */
     public function getResponse(): array
     {
-        // Checks if the Content-Type is application/json.
-        $content_type = isset($_SERVER['CONTENT_TYPE']) ? $_SERVER['CONTENT_TYPE'] : '';
-        if (stripos($content_type, 'application/json') === false)
-            throw new SlimPayIframeException('Content-Type must be application/json');
-
         // Read the input stream and decode the given JSON.
         $rawResponse = file_get_contents("php://input");
         $response    = json_decode($rawResponse, true);
