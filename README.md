@@ -47,9 +47,49 @@ $slimpayConfig = [
 
 // Instance.
 $slimpay = new SlimPayIframe($slimpayConfig);
-
-...
 ```
+
+<br />
+
+# Credit card checkout with SlimPay Iframe
+To create the SlimPay Iframe for Credit Cards you have to init an array like this one below and call the **checkout** method.
+```php
+$data = [
+    'started'        => true,
+    'locale'         => 'it',
+    'paymentScheme'  => 'CARD',
+    'creditor'       => ['reference' => 'xxxxxxxxxxx'],
+    'items'          => [['type' => 'cardAlias']],
+    'subscriber'     => [
+        'reference'  => 'yourUniqueUserId',
+        'givenName'  => 'John',
+        'familyName' => 'Doe',
+        'email'      => 'john.doe@domain.com',
+        'telephone'  => '+393470000000',
+    ],
+];
+
+$response = $slimpay->checkout($data);
+
+// The checkout flow returns an object with some useful data and the order status.
+if ($response->state == 'open.running') {
+    $resourceLinks = [
+        'userApproval' => 'https://api.slimpay.net/alps#user-approval',
+        'cancelOrder'  => 'https://api.slimpay.net/alps#cancel-order',
+    ];
+
+    $userApprovalUrl = $response->_links->{$resourceLinks['userApproval']}->href;
+
+    if ($userApprovalUrl) {
+        header('Location: ' . $userApprovalUrl);
+        exit();
+    }
+}
+```
+If the response has the **user approval link** you will be redirected to the **SlimPay checkout page**.
+Once you have filled the checkout form, a detailed response will be sent to the **Server Notification URI** set in your 
+SlimPay application, containing the **credit card ID** and **reference ID** to be sent to your Payment Gateway to finish the flow.
+[Server Notification Reference](https://support.slimpay.com/hc/en-us/articles/360001565338-URLs-Management)  
 
 <br />
 

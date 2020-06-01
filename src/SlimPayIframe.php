@@ -12,6 +12,7 @@ namespace LunaLabs\SlimPayIframe;
 // Package classes.
 use LunaLabs\SlimPayIframe\Http\Client;
 use LunaLabs\SlimPayIframe\Exceptions\SlimPayIframeException;
+use GuzzleHttp\Exception\GuzzleException;
 
 
 class SlimPayIframe
@@ -39,8 +40,29 @@ class SlimPayIframe
     }
 
 
-    public function createOrders(array $data)
+    /**
+     * Sends to SlimPay a checkout request with the payment method set. This resource will return
+     * an HAL JSON with all the referenced resources.
+     *
+     * @param  array $data
+     * @return mixed
+     * @throws SlimPayIframeException|GuzzleException
+     */
+    public function checkout(array $data)
     {
         return $this->client->request('POST', '/orders', [ 'json' => $data ])->toObject();
+    }
+
+
+    /**
+     * Retrieves a resource by the given endpoint (it must have the authentication bearer).
+     *
+     * @param  string $endpoint
+     * @return mixed
+     * @throws SlimPayIframeException|GuzzleException
+     */
+    public function getResource(string $endpoint)
+    {
+        return $this->client->request('GET', $endpoint, [])->toObject();
     }
 }
