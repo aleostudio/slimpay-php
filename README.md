@@ -40,6 +40,7 @@ $slimpayConfig = [
     'appId'      => 'xxxxxxxxxxxx',
     'appSecret'  => 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
     'baseUri'    => 'https://api.preprod.slimpay.com',
+    'profileUri' => 'https://api.slimpay.net',
     'apiVersion' => 'v1'
 ];
 

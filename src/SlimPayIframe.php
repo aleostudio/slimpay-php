@@ -41,10 +41,6 @@ class SlimPayIframe
 
     public function createOrders(array $data)
     {
-        $response = $this->client->request('POST', '/alps#create-orders', [ 'base_url' => 'https://api.slimpay.net', 'json' => $data ])->toObject();
-
-        $x = true;
-
-        return $response;
+        return $this->client->request('POST', 'https://api.slimpay.net/alps#create-orders', [ 'json' => $data ])->toObject();
     }
 }

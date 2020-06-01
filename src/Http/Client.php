@@ -65,8 +65,9 @@ class Client
         $data = [
             'headers' => [
                 'User-Agent'    => $this->userAgent,
+                'Accept'        => 'application/hal+json; profile='.$this->config['profileUri'].'/alps/'.$this->config['apiVersion'],
                 'Content-type'  => 'application/json',
-                'Authorization' => 'Bearer '.$this->getToken()->access_token,
+                'Authorization' => 'Bearer '.$this->getToken()->access_token
             ]
         ];
 
@@ -76,10 +77,7 @@ class Client
         }
 
         try {
-            // TODO: rimettere il getClient
-            $prodClient = new GuzzleClient([ 'base_uri' => 'https://api.slimpay.net']);
-            $rawResponse = $prodClient->request($method, $endpoint, $data);
-            //$rawResponse = $this->getClient()->request($method, $endpoint, $data);
+            $rawResponse = $this->getClient()->request($method, $endpoint, $data);
 
         } catch (ConnectException $e) {
             // Connection exception (no internet, timeout...).
@@ -142,7 +140,7 @@ class Client
         }
 
         // The token not exists, so we need to ask a new one to SlimPay.
-        $rawResponse = $this->getClient()->post('oauth/token', [
+        $rawResponse = $this->getClient()->post('/oauth/token', [
             'headers' => [
                 'User-Agent'    => $this->userAgent,
                 'Accept'        => 'application/json',
