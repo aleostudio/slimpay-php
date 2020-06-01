@@ -33,6 +33,7 @@ Create a simple PHP file with these lines:
 require_once __DIR__ . '/vendor/autoload.php';
 
 use LunaLabs\SlimPayIframe\SlimPayIframe;
+use LunaLabs\SlimPayIframe\SlimPayNotification;
 
 // Slimpay credentials.
 $slimpayConfig = [
