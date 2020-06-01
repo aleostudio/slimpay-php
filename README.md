@@ -53,7 +53,12 @@ $slimpay = new SlimPayIframe($slimpayConfig);
 ## TODO
 
 ### Authentication
-- [ ] Authentication flow
+- [x] Authentication flow
+
+### Iframe
+- [ ] Create orders
+- [ ] Iframe redirect
+- [ ] Get token
 
 ### Testing
 - [ ] Unit testing
