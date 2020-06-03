@@ -104,8 +104,13 @@ if ($response->state == 'open.running') {
 ```
 If the response has the **user approval link** you will be redirected to the **SlimPay checkout page**.
 Once you have filled the checkout form with your Credit Card details, a detailed response will be sent to the **Server notification URI** set in your 
-SlimPay application, containing the **credit card ID** and **reference ID** to be sent to your Payment Gateway to finish the flow.
+SlimPay application, containing the **get-card-alias link** to retrieve the **credit card ID** and **reference ID** to be sent to your Payment Gateway to finish the flow.
 [Server Notification Reference](https://support.slimpay.com/hc/en-us/articles/360001565338-URLs-Management)
+```php
+$creditCardAlias = $slimpay->getResource('https://api.slimpay.net/card-aliases/00000000-0000-0000-0000-000000000000');
+```
+In this response you will find the **id**, **reference** and **status** for the used credit card and now you will able to 
+store these data in the payment gateway.
 
 <br />
 
