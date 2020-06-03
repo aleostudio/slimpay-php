@@ -6,7 +6,7 @@ in the **LunaLabs** repository.
 <br />
 
 ## Installation
-If you want to try the package, simply install it with:
+If you want to try the package, simply clone it and install its dependencies with:
 ```bash
 composer install
 ```
@@ -54,7 +54,7 @@ $slimpay = new SlimPayIframe($slimpayConfig);
 
 <br />
 
-# Credit card checkout with SlimPay Iframe
+# Credit card checkout with SlimPay Iframe or redirection
 To create the SlimPay Iframe for Credit Cards you have to init an array like this one below and call the **checkout** method.
 Customize the data and the return urls (failureUrl, successUrl and cancelUrl) with yours.
 ```php
@@ -146,12 +146,13 @@ $response     = $notification->getResponse();
 ### Authentication
 - [x] Authentication flow
 
-### Credit card Iframe
+### Credit card checkout
 - [x] Create order
-- [x] Iframe redirect
+- [x] Checkout redirect
+- [x] Embedded Iframe
 - [x] Get notification response to retrieve the card and reference IDs
 
-### SEPA Iframe
+### SEPA checkout
 - [ ] Create order
 - [ ] Iframe redirect
 - [ ] Get notification response to retrieve the RUM
