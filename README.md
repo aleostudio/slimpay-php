@@ -140,6 +140,8 @@ $data = [
 ];
 
 $response = $slimpay->checkout($data);
+
+// Handle the redirect and response in the same way as the credit card flow...
 ```
 If the response has the **user approval link** you will be redirected to the **SlimPay checkout page**.
 Once you have filled the checkout form with your IBAN, a detailed response will be sent to the **Server notification URI** set in your 
