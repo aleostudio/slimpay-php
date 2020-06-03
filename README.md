@@ -6,9 +6,11 @@ in the **LunaLabs** repository.
 <br />
 
 ## Installation
-
-If you have cloned this package somewhere in your disk, simply add into your **composer.json** these lines, customizing 
-the path of the package. Then, launch a **composer install**
+If you want to try the package, simply install it with:
+```bash
+composer install
+```
+If you want to simulate the package inside your Laravel app, simply clone this repo, copy it into your vendor dir and add into your **composer.json** these lines and then launch a **composer install**
 ```
 ...
 "require": {
