@@ -109,6 +109,45 @@ SlimPay application, containing the **credit card ID** and **reference ID** to b
 
 <br />
 
+# SEPA checkout with SlimPay Iframe or redirection
+To create the SlimPay Iframe for SEPA direct debit you have to init an array like this one below and call the **checkout** method.
+Customize the data and the return urls (failureUrl, successUrl and cancelUrl) with yours.
+```php
+$data = [
+    'started'    => true,
+    'creditor'   => ['reference' => 'xxxxxxxxxxx'],
+    'subscriber' => ['reference' => 'yourUniqueUserId'],
+    'items'      => [[
+        'type' => 'signMandate',
+        'mandate' => [
+            'signatory' => [
+                'givenName'      => 'John',
+                'familyName'     => 'Doe',
+                'email'          => 'john.doe@domain.com',
+                'telephone'      => '+393470000000',
+                'billingAddress' => [
+                    'street1'    => 'Address street 123',
+                    'postalCode' => '01234',
+                    'city'       => 'CityName',
+                    'country'    => 'IT'
+                ],
+            ]
+        ]
+    ]],
+    'failureUrl' => 'http://yourdomain.com/failure.php',
+    'successUrl' => 'http://yourdomain.com/success.php',
+    'cancelUrl'  => 'http://yourdomain.com/cancel.php'
+];
+
+$response = $slimpay->checkout($data);
+```
+This call will **redirect** to your **failure/success page**. At the same time, a server notification will be sent to 
+your URL set, containing the **checkout status** and the link to retrieve the created mandate. Calling this link 
+(like this one: https://api.slimpay.net/mandates/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx) you can retrieve the **reference ID** 
+and the **UMR (RUM) number** to create the payment method in your payment gateway for this user. 
+
+<br />
+
 ## Server notification URL
 
 It is possible to handle the **SlimPay server notification**.
