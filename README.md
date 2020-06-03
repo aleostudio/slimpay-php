@@ -44,7 +44,8 @@ $slimpayConfig = [
     'appSecret'  => 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
     'baseUri'    => 'https://api.preprod.slimpay.com',
     'profileUri' => 'https://api.slimpay.net',
-    'apiVersion' => 'v1'
+    'apiVersion' => 'v1',
+    'mode'       => 'iframe' // iframe|redirect
 ];
 
 // Instance.
@@ -77,18 +78,27 @@ $data = [
 
 $response = $slimpay->checkout($data);
 
-// The checkout flow returns an object with some useful data and the order status.
+// The checkout flow returns the order status. If it is 'open.running' we can go on.
 if ($response->state == 'open.running') {
     $resourceLinks = [
-        'userApproval' => 'https://api.slimpay.net/alps#user-approval',
-        'cancelOrder'  => 'https://api.slimpay.net/alps#cancel-order',
+        'userApproval'     => 'https://api.slimpay.net/alps#user-approval',
+        'extendedApproval' => 'https://api.slimpay.net/alps#extended-user-approval',
     ];
 
-    $userApprovalUrl = $response->_links->{$resourceLinks['userApproval']}->href;
+    switch ($slimpayConfig['mode']) {
 
-    if ($userApprovalUrl) {
-        header('Location: ' . $userApprovalUrl);
-        exit();
+        case 'redirect':
+            $link = $response->_links->{$resourceLinks['userApproval']}->href;
+            header('Location: ' . $link);
+            break;
+
+        case 'iframe':
+            $link    = $response->_links->{$resourceLinks['extendedApproval']}->href;
+            $link    = str_replace('{?mode}', '', $link);
+            $encoded = $slimpay->getResource($link, ['mode' => 'iframeembedded']);
+            $html    = base64_decode($encoded->content);
+            echo $html;
+            break;
     }
 }
 ```

@@ -58,11 +58,12 @@ class SlimPayIframe
      * Retrieves a resource by the given endpoint (it must have the authentication bearer).
      *
      * @param  string $endpoint
+     * @param  array  $params
      * @return mixed
      * @throws SlimPayIframeException|GuzzleException
      */
-    public function getResource(string $endpoint)
+    public function getResource(string $endpoint, array $params = [])
     {
-        return $this->client->request('GET', $endpoint, [])->toObject();
+        return $this->client->request('GET', $endpoint, $params)->toObject();
     }
 }
