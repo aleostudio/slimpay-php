@@ -35,6 +35,7 @@ Create a simple PHP file with these lines:
 require_once __DIR__ . '/vendor/autoload.php';
 
 use LunaLabs\SlimPayIframe\SlimPayIframe;
+use LunaLabs\SlimPayIframe\SlimPayReturn;
 use LunaLabs\SlimPayIframe\SlimPayNotification;
 
 // Slimpay credentials.
@@ -95,9 +96,20 @@ SlimPay application, containing the **credit card ID** and **reference ID** to b
 
 <br />
 
-## Server notification
+## Server return URL
 
-It is possible to handle the **SlimPay server notification**.
+It is possible to handle the **SlimPay server return URL**.
+To instantiate the return URL handler, write these lines:
+```php
+$returnUrl = new SlimPayReturn();
+$response  = $returnUrl->getResponse();
+```
+
+<br />
+
+## Server notification URL
+
+It is also possible to handle the **SlimPay server notification**.
 To instantiate the notification handler, write these lines:
 ```php
 $notification = new SlimPayNotification();
@@ -106,7 +118,9 @@ $response     = $notification->getResponse();
 
 <br />
 
-If you want to **log the notification response**, you can inject you custom logger as parameter.
+
+
+If you want to **log the notification/return url response**, you can inject you custom logger as parameter.
 Pay attention that your logger must have a "**write()**" method inside, as shown in this simple example below.
 ```php
 class Log
@@ -118,9 +132,11 @@ class Log
     }
 }
 
-$customLog    = new Log;
-$notification = new SlimPayNotification($customLog);
-$response     = $notification->getResponse();
+$customLog            = new Log;
+$notification         = new SlimPayNotification($customLog);
+$returnUrl            = new SlimPayReturn($customLog);
+$notificationResponse = $notification->getResponse();
+$returnUrlResponse    = $returnUrl->getResponse();
 ```
 
 <br />
