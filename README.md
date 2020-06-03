@@ -103,7 +103,7 @@ if ($response->state == 'open.running') {
 }
 ```
 If the response has the **user approval link** you will be redirected to the **SlimPay checkout page**.
-Once you have filled the checkout form, a detailed response will be sent to the **Server notification URI** set in your 
+Once you have filled the checkout form with your Credit Card details, a detailed response will be sent to the **Server notification URI** set in your 
 SlimPay application, containing the **credit card ID** and **reference ID** to be sent to your Payment Gateway to finish the flow.
 [Server Notification Reference](https://support.slimpay.com/hc/en-us/articles/360001565338-URLs-Management)
 
@@ -141,8 +141,9 @@ $data = [
 
 $response = $slimpay->checkout($data);
 ```
-This call will **redirect** to your **failure/success page**. At the same time, a server notification will be sent to 
-your URL set, containing the **checkout status** and the link to retrieve the created mandate. Calling this link 
+If the response has the **user approval link** you will be redirected to the **SlimPay checkout page**.
+Once you have filled the checkout form with your IBAN, a detailed response will be sent to the **Server notification URI** set in your 
+SlimPay application, containing the **checkout status** and the link to retrieve the created mandate. Calling this link 
 (like this one: https://api.slimpay.net/mandates/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx) you can retrieve the **reference ID** 
 and the **UMR (RUM) number** to create the payment method in your payment gateway for this user. 
 
