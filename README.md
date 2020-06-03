@@ -55,6 +55,7 @@ $slimpay = new SlimPayIframe($slimpayConfig);
 
 # Credit card checkout with SlimPay Iframe
 To create the SlimPay Iframe for Credit Cards you have to init an array like this one below and call the **checkout** method.
+Customize the data and the return urls (failureUrl, successUrl and cancelUrl) with yours.
 ```php
 $data = [
     'started'        => true,
@@ -69,6 +70,9 @@ $data = [
         'email'      => 'john.doe@domain.com',
         'telephone'  => '+393470000000',
     ],
+    'failureUrl' => 'http://yourdomain.com/failure.php',
+    'successUrl' => 'http://yourdomain.com/success.php',
+    'cancelUrl'  => 'http://yourdomain.com/cancel.php'
 ];
 
 $response = $slimpay->checkout($data);
