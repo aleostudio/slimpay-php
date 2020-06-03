@@ -151,6 +151,14 @@ and the **UMR (RUM) number** to create the payment method in your payment gatewa
 
 <br />
 
+# Get a resource through authenticated call
+To retrieve a resource, you can use the **getResource()** method by passing the URL as shown below.
+```php
+$response = $slimpay->getResource('https://api.slimpay.net/RESOURCE-NAME/00000000-0000-0000-0000-000000000000');
+```
+
+<br />
+
 ## Server notification URL
 
 It is possible to handle the **SlimPay server notification**.
