@@ -150,7 +150,7 @@ $response = $slimpay->checkout($data);
 ```
 If the response has the **user approval link** you will be redirected to the **SlimPay checkout page**.
 Once you have filled the checkout form with your IBAN, a detailed response will be sent to the **Server notification URI** set in your 
-SlimPay application, containing the **checkout status** and the link to retrieve the created mandate. Calling this link 
+SlimPay application, containing the **checkout status** and the link (**get-mandate**) to retrieve the created mandate. Calling this link 
 (like this one: https://api.slimpay.net/mandates/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx) you can retrieve the **reference ID** 
 and the **UMR (RUM) number** to create the payment method in your payment gateway for this user. 
 
@@ -208,9 +208,9 @@ $response     = $notification->getResponse();
 - [x] Get notification response to retrieve the card and reference IDs
 
 ### SEPA checkout
-- [ ] Create order
-- [ ] Iframe redirect
-- [ ] Get notification response to retrieve the RUM
+- [x] Create order
+- [x] Iframe redirect
+- [x] Get notification response to retrieve the RUM
 
 ### Testing
 - [ ] Unit testing
