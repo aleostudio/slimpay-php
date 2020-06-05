@@ -28,9 +28,9 @@ class SlimPayTest extends TestCase
     public function setUp(): void
     {
         $this->config = [
-            'creditor'   => 'mansuttispa',
-            'appId'      => 'mansuttispa01',
-            'appSecret'  => '0tT6QuFXHIqHiSORaeydHk03fHBTqL7ERzNVt9cH',
+            'creditor'   => 'xxxxxxxxxxx',
+            'appId'      => 'xxxxxxxxxxxx',
+            'appSecret'  => 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXX',
             'baseUri'    => 'https://api.preprod.slimpay.com',
             'profileUri' => 'https://api.slimpay.net',
             'apiVersion' => 'v1',
