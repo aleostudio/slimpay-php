@@ -14,4 +14,4 @@ test.php
 .phpstorm.meta.php
 ._*
 .DS_Store
-test.php
+test_*
