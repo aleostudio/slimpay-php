@@ -79,27 +79,8 @@ $data = [
 $response = $slimpay->checkout($data);
 
 // The checkout flow returns the order status. If it is 'open.running' we can go on.
-if ($response->state == 'open.running') {
-    $resourceLinks = [
-        'userApproval'     => 'https://api.slimpay.net/alps#user-approval',
-        'extendedApproval' => 'https://api.slimpay.net/alps#extended-user-approval',
-    ];
-
-    switch ($slimpayConfig['mode']) {
-
-        case 'redirect':
-            $link = $response->_links->{$resourceLinks['userApproval']}->href;
-            header('Location: ' . $link);
-            break;
-
-        case 'iframe':
-            $link    = $response->_links->{$resourceLinks['extendedApproval']}->href;
-            $link    = str_replace('{?mode}', '', $link);
-            $encoded = $slimpay->getResource($link, ['mode' => 'iframeembedded']);
-            $html    = base64_decode($encoded->content);
-            echo $html;
-            break;
-    }
+if ($slimpay->isValidResponse($response)) {
+    $slimpay->showCheckoutPage($response);
 }
 ```
 If the response has the **user approval link** you will be redirected to the **SlimPay checkout page**.
@@ -146,7 +127,10 @@ $data = [
 
 $response = $slimpay->checkout($data);
 
-// Handle the redirect and response in the same way as the credit card flow...
+// The checkout flow returns the order status. If it is 'open.running' we can go on.
+if ($slimpay->isValidResponse($response)) {
+    $slimpay->showCheckoutPage($response);
+}
 ```
 If the response has the **user approval link** you will be redirected to the **SlimPay checkout page**.
 Once you have filled the checkout form with your IBAN, a detailed response will be sent to the **Server notification URI** set in your 
@@ -213,5 +197,5 @@ $response     = $notification->getResponse();
 - [x] Get notification response to retrieve the RUM
 
 ### Testing
-- [ ] Unit testing
+- [x] Unit testing
 
