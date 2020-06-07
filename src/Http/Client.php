@@ -40,7 +40,7 @@ class Client
     /**
      * Client constructor.
      *
-     * @param array $config   Configuration array.
+     * @param  array $config Configuration array.
      */
     public function __construct($config = [])
     {
@@ -56,8 +56,7 @@ class Client
      * @param  string $endpoint
      * @param  array  $params
      * @return object
-     * @throws GuzzleException
-     * @throws SlimPayIframeException
+     * @throws SlimPayIframeException|GuzzleException
      */
     public function request(string $method, string $endpoint, array $params): object
     {
@@ -124,6 +123,8 @@ class Client
      * Retrieves a valid token object from SlimPay.
      *
      * @return object $token
+     * @throws GuzzleException
+     * @throws SlimPayIframeException
      */
     public function getToken(): object
     {
@@ -140,28 +141,33 @@ class Client
         }
 
         // The token not exists, so we need to ask a new one to SlimPay.
-        $rawResponse = $this->getClient()->post('/oauth/token', [
-            'headers' => [
-                'User-Agent'    => $this->userAgent,
-                'Accept'        => 'application/json',
-                'Content-type'  => 'application/x-www-form-urlencoded',
-                'Authorization' => 'Basic '.base64_encode($this->config['appId'] . ':' . $this->config['appSecret']),
-            ],
-            'form_params' => [
-                'grant_type' => 'client_credentials',
-                'scope'      => 'api'
-            ]
-        ]);
+        try {
+            $rawResponse = $this->getClient()->post('/oauth/token', [
+                'headers' => [
+                    'User-Agent'    => $this->userAgent,
+                    'Accept'        => 'application/json',
+                    'Content-type'  => 'application/x-www-form-urlencoded',
+                    'Authorization' => 'Basic '.base64_encode($this->config['appId'] . ':' . $this->config['appSecret']),
+                ],
+                'form_params' => [
+                    'grant_type' => 'client_credentials',
+                    'scope'      => 'api'
+                ]
+            ]);
 
-        $token = json_decode($rawResponse->getBody());
+            $token = json_decode($rawResponse->getBody());
 
-        // Adding the expiration date to the token object just for convenience.
-        $token->created_at = time();
-        $token->expired_at = $token->created_at + $token->expires_in;
+            // Adding the expiration date to the token object just for convenience.
+            $token->created_at = time();
+            $token->expired_at = $token->created_at + $token->expires_in;
 
-        $this->setToken($token);
+            $this->setToken($token);
 
-        return $token;
+            return $token;
+
+        } catch (ClientException $e) {
+            throw new SlimPayIframeException($e->getResponse()->getBody(), $e->getCode(), $e);
+        }
     }
 
 

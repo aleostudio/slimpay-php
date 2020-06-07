@@ -36,6 +36,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 
 use LunaLabs\SlimPayIframe\SlimPayIframe;
 use LunaLabs\SlimPayIframe\SlimPayNotification;
+use LunaLabs\SlimPayIframe\Exceptions\SlimPayIframeException;
 
 // Slimpay credentials.
 $slimpayConfig = [
@@ -49,7 +50,12 @@ $slimpayConfig = [
 ];
 
 // Instance.
-$slimpay = new SlimPayIframe($slimpayConfig);
+try {
+    $slimpay = new SlimPayIframe($slimpayConfig);
+
+} catch (SlimPayIframeException $e) {
+    // ...
+}
 ```
 
 <br />
@@ -76,17 +82,15 @@ $data = [
     'cancelUrl'  => 'http://yourdomain.com/cancel.php'
 ];
 
-$response = $slimpay->checkout($data);
-
-// The checkout flow returns the order status. If it is 'open.running' we can go on.
-if ($slimpay->isValidResponse($response)) {
+try {
+    $response = $slimpay->checkout($data);
     $slimpay->showCheckoutPage($response);
-} else {
-    // Just for example, in case of error you can handle the formatted response through some useful properties.
-    echo 'HTTP code: '      . $response->http_code       . '<br />';
-    echo 'Full response: '  . $response->response        . '<br />';
-    echo 'SlimPay code: '   . $response->slimpay_code    . '<br />';
-    echo 'SlimPay message: '. $response->slimpay_message . '<br />';
+
+} catch (SlimPayIframeException $e) {
+
+    // In case of error, you can handle the formatted object response through some useful properties.
+    header('Content-Type: application/json');
+    echo json_encode($e->errorFormatter());
 }
 ```
 If the response has the **user approval link** you will be redirected to the **SlimPay checkout page**.
@@ -131,17 +135,15 @@ $data = [
     'cancelUrl'  => 'http://yourdomain.com/cancel.php'
 ];
 
-$response = $slimpay->checkout($data);
-
-// The checkout flow returns the order status. If it is 'open.running' we can go on.
-if ($slimpay->isValidResponse($response)) {
+try {
+    $response = $slimpay->checkout($data);
     $slimpay->showCheckoutPage($response);
-} else {
-    // Just for example, in case of error you can handle the formatted response through some useful properties.
-    echo 'HTTP code: '      . $response->http_code       . '<br />';
-    echo 'Full response: '  . $response->response        . '<br />';
-    echo 'SlimPay code: '   . $response->slimpay_code    . '<br />';
-    echo 'SlimPay message: '. $response->slimpay_message . '<br />';
+
+} catch (SlimPayIframeException $e) {
+
+    // In case of error, you can handle the formatted object response through some useful properties.
+    header('Content-Type: application/json');
+    echo json_encode($e->errorFormatter());
 }
 ```
 If the response has the **user approval link** you will be redirected to the **SlimPay checkout page**.
@@ -155,7 +157,15 @@ and the **UMR (RUM) number** to create the payment method in your payment gatewa
 # Get a resource through authenticated call
 To retrieve a resource, you can use the **getResource()** method by passing the URL as shown below.
 ```php
-$response = $slimpay->getResource('https://api.slimpay.net/RESOURCE-NAME/00000000-0000-0000-0000-000000000000');
+try {
+    $response = $slimpay->getResource('https://api.slimpay.net/RESOURCE-NAME/00000000-0000-0000-0000-000000000000');
+
+} catch (SlimPayIframeException $e) {
+
+    // In case of error, you can handle the formatted object response through some useful properties.
+    header('Content-Type: application/json');
+    echo json_encode($e->errorFormatter());
+}
 ```
 
 <br />
@@ -168,10 +178,6 @@ To instantiate the notification handler, write these lines:
 $notification = new SlimPayNotification();
 $response     = $notification->getResponse();
 ```
-
-<br />
-
-
 
 If you want to **log the notification response**, you can inject you custom logger as parameter.
 Pay attention that your logger must have a "**write()**" method inside, as shown in this simple example below.

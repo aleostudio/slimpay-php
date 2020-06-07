@@ -25,4 +25,24 @@ class SlimPayIframeException extends Exception
     {
         parent::__construct($error, $code, $previous);
     }
+
+
+    /**
+     * If an exception is thrown, this method return a simple object
+     * with the received error code and message.
+     *
+     * @link   https://dev.slimpay.com/hapi/overview/errors
+     *
+     * @return object
+     */
+    public function errorFormatter()
+    {
+        return (object) [
+            'error'           => true,
+            'http_code'       => $this->getCode(),
+            'response'        => $this->getPrevious()->getMessage(),
+            'slimpay_code'    => (json_decode($this->getMessage())->code)    ?? 0,
+            'slimpay_message' => (json_decode($this->getMessage())->message) ?? ''
+        ];
+    }
 }
