@@ -81,6 +81,12 @@ $response = $slimpay->checkout($data);
 // The checkout flow returns the order status. If it is 'open.running' we can go on.
 if ($slimpay->isValidResponse($response)) {
     $slimpay->showCheckoutPage($response);
+} else {
+    // Just for example, in case of error you can handle the formatted response through some useful properties.
+    echo 'HTTP code: '      . $response->http_code       . '<br />';
+    echo 'Full response: '  . $response->response        . '<br />';
+    echo 'SlimPay code: '   . $response->slimpay_code    . '<br />';
+    echo 'SlimPay message: '. $response->slimpay_message . '<br />';
 }
 ```
 If the response has the **user approval link** you will be redirected to the **SlimPay checkout page**.
@@ -130,6 +136,12 @@ $response = $slimpay->checkout($data);
 // The checkout flow returns the order status. If it is 'open.running' we can go on.
 if ($slimpay->isValidResponse($response)) {
     $slimpay->showCheckoutPage($response);
+} else {
+    // Just for example, in case of error you can handle the formatted response through some useful properties.
+    echo 'HTTP code: '      . $response->http_code       . '<br />';
+    echo 'Full response: '  . $response->response        . '<br />';
+    echo 'SlimPay code: '   . $response->slimpay_code    . '<br />';
+    echo 'SlimPay message: '. $response->slimpay_message . '<br />';
 }
 ```
 If the response has the **user approval link** you will be redirected to the **SlimPay checkout page**.

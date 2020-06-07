@@ -52,11 +52,15 @@ class SlimPayIframe
      *
      * @param  array $data
      * @return mixed
-     * @throws SlimPayIframeException|GuzzleException
+     * @throws GuzzleException
      */
     public function checkout(array $data)
     {
-        return $this->client->request('POST', '/orders', [ 'json' => $data ])->toObject();
+        try {
+            return $this->client->request('POST', '/orders', [ 'json' => $data ])->toObject();
+        } catch (SlimPayIframeException $e) {
+            return $this->errorFormatter($e);
+        }
     }
 
 
@@ -66,11 +70,15 @@ class SlimPayIframe
      * @param  string $endpoint
      * @param  array  $params
      * @return mixed
-     * @throws SlimPayIframeException|GuzzleException
+     * @throws GuzzleException
      */
     public function getResource(string $endpoint, array $params = [])
     {
-        return $this->client->request('GET', $endpoint, $params)->toObject();
+        try {
+            return $this->client->request('GET', $endpoint, $params)->toObject();
+        } catch (SlimPayIframeException $e) {
+            return $this->errorFormatter($e);
+        }
     }
 
 
@@ -79,7 +87,7 @@ class SlimPayIframe
      *
      * @param  object $response
      * @return void
-     * @throws SlimPayIframeException|GuzzleException
+     * @throws GuzzleException
      */
     public function showCheckoutPage(object $response): void
     {
@@ -110,6 +118,27 @@ class SlimPayIframe
      */
     public function isValidResponse(object $response): bool
     {
-        return (property_exists($response, 'state') && property_exists($response, '_links'));
+        return property_exists($response, '_links');
+    }
+
+
+    /**
+     * If an exception is thrown, this method return a simple object
+     * with the received error code and message.
+     *
+     * @link   https://dev.slimpay.com/hapi/overview/errors
+     *
+     * @param  $e
+     * @return object
+     */
+    private function errorFormatter($e)
+    {
+        return (object) [
+            'error'           => true,
+            'http_code'       => $e->getCode(),
+            'response'        => $e->getPrevious()->getMessage(),
+            'slimpay_code'    => json_decode($e->getMessage())->code,
+            'slimpay_message' => json_decode($e->getMessage())->message
+        ];
     }
 }

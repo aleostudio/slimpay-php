@@ -81,7 +81,7 @@ class Client
 
         } catch (ConnectException $e) {
             // Connection exception (no internet, timeout...).
-            throw new SlimPayIframeException('Connect exception (code: '.$e->getCode().'): ' . $e->getMessage());
+            throw new SlimPayIframeException($e->getResponse()->getBody(), $e->getCode(), $e);
 
         } catch (ClientException $e) {
             // 400 level errors.
@@ -91,18 +91,18 @@ class Client
                 $this->token = $this->getToken();
                 return $this->request($method, $endpoint, $params);
             }
-            throw new SlimPayIframeException('Client exception (code: '.$e->getCode().'): ' . $e->getMessage());
+            throw new SlimPayIframeException($e->getResponse()->getBody(), $e->getCode(), $e);
 
         } catch (ServerException $e) {
             // 500 level errors.
-            throw new SlimPayIframeException('Server exception (code: '.$e->getCode().'): ' . $e->getMessage());
+            throw new SlimPayIframeException($e->getResponse()->getBody(), $e->getCode(), $e);
 
         } catch (TooManyRedirectsException $e) {
             // 301 redirects errors.
-            throw new SlimPayIframeException('Too many redirects exception (code: '.$e->getCode().'): ' . $e->getMessage());
+            throw new SlimPayIframeException($e->getResponse()->getBody(), $e->getCode(), $e);
 
         } catch (GuzzleException $e) {
-            throw new SlimPayIframeException('Fatal error (code: '.$e->getCode().'): ' . $e->getMessage());
+            throw new SlimPayIframeException($e->getResponse()->getBody(), $e->getCode(), $e);
         }
 
         return new Response($rawResponse);
