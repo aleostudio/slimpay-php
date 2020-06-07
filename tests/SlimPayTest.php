@@ -131,7 +131,7 @@ class SlimPayTest extends TestCase
         $wrongConfig = $this->config;
         $wrongConfig['appSecret'] = 'wrongAppSecret';
         $client = new Client($wrongConfig);
-        $this->expectException(ClientException::class);
+        $this->expectException(SlimPayIframeException::class);
         $token = $client->getToken();
     }
 

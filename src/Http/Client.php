@@ -85,7 +85,7 @@ class Client
         } catch (ClientException $e) {
             // 400 level errors.
             // If the request returns a 401, means that we have an expired or invalid access token,
-            // so we force to obtain a new one through the refresh token and update the token expiry.
+            // so we force to obtain a new valid one.
             if ($e->getCode() == 401) {
                 $this->token = $this->getToken();
                 return $this->request($method, $endpoint, $params);

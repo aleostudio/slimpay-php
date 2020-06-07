@@ -50,12 +50,7 @@ $slimpayConfig = [
 ];
 
 // Instance.
-try {
-    $slimpay = new SlimPayIframe($slimpayConfig);
-
-} catch (SlimPayIframeException $e) {
-    // ...
-}
+$slimpay = new SlimPayIframe($slimpayConfig);
 ```
 
 <br />
