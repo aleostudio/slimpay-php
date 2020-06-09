@@ -53,8 +53,7 @@ class SlimPayIframe
      *
      * @param  array $data
      * @return mixed
-     * @throws GuzzleException
-     * @throws SlimPayIframeException
+     * @throws SlimPayIframeException|GuzzleException
      */
     public function checkout(array $data)
     {
@@ -68,8 +67,7 @@ class SlimPayIframe
      * @param  string $endpoint
      * @param  array $params
      * @return mixed
-     * @throws GuzzleException
-     * @throws SlimPayIframeException
+     * @throws SlimPayIframeException|GuzzleException
      */
     public function getResource(string $endpoint, array $params = [])
     {
@@ -82,8 +80,7 @@ class SlimPayIframe
      *
      * @param  object $response
      * @return void
-     * @throws GuzzleException
-     * @throws SlimPayIframeException
+     * @throws SlimPayIframeException|GuzzleException
      */
     public function showCheckoutPage(object $response): void
     {

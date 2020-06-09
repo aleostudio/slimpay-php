@@ -80,7 +80,7 @@ class Client
 
         } catch (ConnectException $e) {
             // Connection exception (no internet, timeout...).
-            throw new SlimPayIframeException($e->getResponse()->getBody(), $e->getCode(), $e);
+            throw new SlimPayIframeException($e->getMessage(), 0, $e);
 
         } catch (ClientException $e) {
             // 400 level errors.
@@ -166,7 +166,14 @@ class Client
             return $token;
 
         } catch (ClientException $e) {
+
+            // Wrong credentials.
             throw new SlimPayIframeException($e->getResponse()->getBody(), $e->getCode(), $e);
+
+        } catch (ConnectException $e) {
+
+            // Connection exception (no internet, timeout...).
+            throw new SlimPayIframeException($e->getMessage(), 0, $e);
         }
     }
 
