@@ -78,6 +78,9 @@ $data = [
 ];
 
 try {
+    // This call returns a response with the order representation
+    // in which you can find the unique ID. Save it to keep the order
+    // reference (for example, if the order fails).
     $response = $slimpay->checkout($data);
     $slimpay->showCheckoutPage($response);
 
@@ -131,6 +134,9 @@ $data = [
 ];
 
 try {
+    // This call returns a response with the order representation
+    // in which you can find the unique ID. Save it to keep the order
+    // reference (for example, if the order fails).
     $response = $slimpay->checkout($data);
     $slimpay->showCheckoutPage($response);
 
