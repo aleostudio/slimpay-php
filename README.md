@@ -2,6 +2,7 @@
 
 A simple PHP package to integrate the **SlimPay checkout** on your application that supports both iframe and redirect checkout.
 <br />
+
 This package will be officially published and mantained in the **[LunaLabs](https://github.com/lunalabs-srl)** repository at **[this link](https://github.com/lunalabs-srl/slimpay-php)**.
 
 <br />
