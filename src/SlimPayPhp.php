@@ -1,21 +1,21 @@
 <?php
 /**
- * This file is part of the SlimPay Iframe package.
+ * This file is part of the SlimPay PHP package.
  *
  * (c) Alessandro Orrù <alessandro.orru@aleostudio.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace LunaLabs\SlimPayIframe;
+namespace AleoStudio\SlimPayPhp;
 
 // Package classes.
-use LunaLabs\SlimPayIframe\Http\Client;
-use LunaLabs\SlimPayIframe\Exceptions\SlimPayIframeException;
+use AleoStudio\SlimPayPhp\Http\Client;
+use AleoStudio\SlimPayPhp\Exceptions\SlimPayPhpException;
 use GuzzleHttp\Exception\GuzzleException;
 
 
-class SlimPayIframe
+class SlimPayPhp
 {
     /**
      * @var Client $client
@@ -33,12 +33,12 @@ class SlimPayIframe
      *
      * @param  array  $config SlimPay Iframe configuration.
      * @param  Client $client The Guzzle HTTP client.
-     * @throws SlimPayIframeException
+     * @throws SlimPayPhpException
      */
     public function __construct(array $config = null, Client $client = null)
     {
         if (is_null($client)) {
-            if (is_null($config)) throw new SlimPayIframeException('The SlimPay Iframe auth configuration is missing');
+            if (is_null($config)) throw new SlimPayPhpException('The SlimPay Iframe auth configuration is missing');
             $client = new Client($config);
         }
 
@@ -53,7 +53,7 @@ class SlimPayIframe
      *
      * @param  array $data
      * @return mixed
-     * @throws SlimPayIframeException|GuzzleException
+     * @throws SlimPayPhpException|GuzzleException
      */
     public function checkout(array $data)
     {
@@ -67,7 +67,7 @@ class SlimPayIframe
      * @param  string $endpoint
      * @param  array $params
      * @return mixed
-     * @throws SlimPayIframeException|GuzzleException
+     * @throws SlimPayPhpException|GuzzleException
      */
     public function getResource(string $endpoint, array $params = [])
     {
@@ -80,7 +80,7 @@ class SlimPayIframe
      *
      * @param  object $response
      * @return void
-     * @throws SlimPayIframeException|GuzzleException
+     * @throws SlimPayPhpException|GuzzleException
      */
     public function showCheckoutPage(object $response): void
     {

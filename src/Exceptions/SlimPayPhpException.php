@@ -1,18 +1,18 @@
 <?php
 /**
- * This file is part of the SlimPay Iframe package.
+ * This file is part of the SlimPay PHP package.
  *
  * (c) Alessandro Orrù <alessandro.orru@aleostudio.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace LunaLabs\SlimPayIframe\Exceptions;
+namespace AleoStudio\SlimPayPhp\Exceptions;
 
 use \Exception;
 
 
-class SlimPayIframeException extends Exception
+class SlimPayPhpException extends Exception
 {
     /**
      * Constructor.

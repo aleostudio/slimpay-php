@@ -1,6 +1,6 @@
 {
-    "name": "lunalabs/slimpay-iframe",
-    "description": "A simple PHP package to integrate the SlimPay Iframe in your application",
+    "name": "aleostudio/slimpay-php",
+    "description": "A simple PHP package to integrate the SlimPay checkout on your application that supports both iframe and redirect checkout",
     "license": "GPL-2.0-only",
     "type": "package",
     "version": "0.1",
@@ -23,12 +23,12 @@
     },
     "autoload": {
         "psr-4": {
-            "LunaLabs\\SlimPayIframe\\": "src/"
+            "AleoStudio\\SlimPayPhp\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "LunaLabs\\SlimPayIframe\\Test\\": "tests"
+            "AleoStudio\\SlimPayPhp\\Test\\": "tests"
         }
     },
     "scripts": {

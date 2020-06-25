@@ -1,17 +1,17 @@
 <?php
 /**
- * This file is part of the SlimPay Iframe package.
+ * This file is part of the SlimPay PHP package.
  *
  * (c) Alessandro Orrù <alessandro.orru@aleostudio.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace LunaLabs\SlimPayIframe\Test;
+namespace AleoStudio\SlimPayPhp\Test;
 
-use LunaLabs\SlimPayIframe\SlimPayIframe;
-use LunaLabs\SlimPayIframe\Exceptions\SlimPayIframeException;
-use LunaLabs\SlimPayIframe\Http\Client;
+use AleoStudio\SlimPayPhp\SlimPayPhp;
+use AleoStudio\SlimPayPhp\Exceptions\SlimPayPhpException;
+use AleoStudio\SlimPayPhp\Http\Client;
 
 use BadMethodCallException;
 use PHPUnit\Framework\TestCase;
@@ -85,8 +85,8 @@ class SlimPayTest extends TestCase
 
     public function testSlimPayInstanceWithoutConfig()
     {
-        $this->expectException(SlimPayIframeException::class);
-        $slimpay = new SlimPayIframe();
+        $this->expectException(SlimPayPhpException::class);
+        $slimpay = new SlimPayPhp();
     }
 
 
@@ -131,14 +131,14 @@ class SlimPayTest extends TestCase
         $wrongConfig = $this->config;
         $wrongConfig['appSecret'] = 'wrongAppSecret';
         $client = new Client($wrongConfig);
-        $this->expectException(SlimPayIframeException::class);
+        $this->expectException(SlimPayPhpException::class);
         $token = $client->getToken();
     }
 
 
     public function testGetResource()
     {
-        $slimpay = new SlimPayIframe($this->config);
+        $slimpay = new SlimPayPhp($this->config);
         $resourceUrl = $this->config['baseUri'].'/creditors/'.$this->config['creditor'];
         $response = $slimpay->getResource($resourceUrl);
         $this->assertInstanceOf('StdClass', $response);
@@ -149,16 +149,16 @@ class SlimPayTest extends TestCase
 
     public function testCheckoutWithWrongData()
     {
-        $slimpay = new SlimPayIframe($this->config);
+        $slimpay = new SlimPayPhp($this->config);
         $data = ['wrongCheckoutData'];
-        $this->expectException(SlimPayIframeException::class);
+        $this->expectException(SlimPayPhpException::class);
         $response = $slimpay->checkout($data);
     }
 
 
     public function testCheckoutSEPA()
     {
-        $slimpay  = new SlimPayIframe($this->config);
+        $slimpay  = new SlimPayPhp($this->config);
         $response = $slimpay->checkout($this->sepaData);
         $this->assertTrue($slimpay->isValidResponse($response), 'The checkout response is not valid.');
         $this->assertArrayHasKey('paymentScheme', (array) $response);
@@ -168,7 +168,7 @@ class SlimPayTest extends TestCase
 
     public function testCheckoutCreditCard()
     {
-        $slimpay  = new SlimPayIframe($this->config);
+        $slimpay  = new SlimPayPhp($this->config);
         $response = $slimpay->checkout($this->ccData);
         $this->assertTrue($slimpay->isValidResponse($response), 'The checkout response is not valid.');
         $this->assertArrayHasKey('paymentScheme', (array) $response);

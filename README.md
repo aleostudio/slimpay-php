@@ -1,7 +1,8 @@
-# SlimPay Iframe
+# SlimPay PHP
 
-A simple PHP package to integrate the SlimPay Iframe on your application. This package will be officially published 
-in the **LunaLabs** repository.
+A simple PHP package to integrate the **SlimPay checkout** on your application that supports both iframe and redirect checkout.
+<br />
+This package will be officially published and mantained in the **[LunaLabs](https://github.com/lunalabs-srl)** repository at **[this link](https://github.com/lunalabs-srl/slimpay-php)**.
 
 <br />
 
@@ -14,16 +15,11 @@ If you want to simulate the package inside your Laravel app, simply clone this r
 ```
 ...
 "require": {
-    "lunalabs/slimpay-iframe": "*"
+    "aleostudio/slimpay-php": "*"
 },
 "repositories": [
-    { "type": "path", "url": "vendor/lunalabs/slimpay-iframe" }
+    { "type": "path", "url": "vendor/aleostudio/slimpay-php" }
 ]
-```
-
-Alternatively (but not available yet), you can directly install the package with:
-```bash
-composer require lunalabs/slimpay-iframe
 ```
 <br />
 
@@ -34,9 +30,9 @@ Create a simple PHP file with these lines:
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-use LunaLabs\SlimPayIframe\SlimPayIframe;
-use LunaLabs\SlimPayIframe\SlimPayNotification;
-use LunaLabs\SlimPayIframe\Exceptions\SlimPayIframeException;
+use AleoStudio\SlimPayPhp\SlimPayPhp;
+use AleoStudio\SlimPayPhp\SlimPayNotification;
+use AleoStudio\SlimPayPhp\Exceptions\SlimPayPhpException;
 
 // Slimpay credentials.
 $slimpayConfig = [
@@ -50,7 +46,7 @@ $slimpayConfig = [
 ];
 
 // Instance.
-$slimpay = new SlimPayIframe($slimpayConfig);
+$slimpay = new SlimPayPhp($slimpayConfig);
 ```
 
 <br />
@@ -84,7 +80,7 @@ try {
     $response = $slimpay->checkout($data);
     $slimpay->showCheckoutPage($response);
 
-} catch (SlimPayIframeException $e) {
+} catch (SlimPayPhpException $e) {
 
     // In case of error, you can handle the formatted object response through some useful properties.
     header('Content-Type: application/json');
@@ -140,7 +136,7 @@ try {
     $response = $slimpay->checkout($data);
     $slimpay->showCheckoutPage($response);
 
-} catch (SlimPayIframeException $e) {
+} catch (SlimPayPhpException $e) {
 
     // In case of error, you can handle the formatted object response through some useful properties.
     header('Content-Type: application/json');
@@ -161,7 +157,7 @@ To retrieve a resource, you can use the **getResource()** method by passing the 
 try {
     $response = $slimpay->getResource('https://api.slimpay.net/RESOURCE-NAME/00000000-0000-0000-0000-000000000000');
 
-} catch (SlimPayIframeException $e) {
+} catch (SlimPayPhpException $e) {
 
     // In case of error, you can handle the formatted object response through some useful properties.
     header('Content-Type: application/json');

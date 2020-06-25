@@ -1,17 +1,17 @@
 <?php
 /**
- * This file is part of the SlimPay Iframe package.
+ * This file is part of the SlimPay PHP package.
  *
  * (c) Alessandro Orrù <alessandro.orru@aleostudio.com>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  */
-namespace LunaLabs\SlimPayIframe\Http;
+namespace AleoStudio\SlimPayPhp\Http;
 
 // Package classes.
-use LunaLabs\SlimPayIframe\Http\Response;
-use LunaLabs\SlimPayIframe\Exceptions\SlimPayIframeException;
+use AleoStudio\SlimPayPhp\Http\Response;
+use AleoStudio\SlimPayPhp\Exceptions\SlimPayPhpException;
 
 // External packages.
 use GuzzleHttp\Client as GuzzleClient;
@@ -34,7 +34,7 @@ class Client
     private $token;
 
     /** @var string */
-    private $userAgent = 'LunaLabs SlimPay Iframe 0.1 Client';
+    private $userAgent = 'AleoStudio SlimPay Iframe 0.1 Client';
 
 
     /**
@@ -56,7 +56,7 @@ class Client
      * @param  string $endpoint
      * @param  array  $params
      * @return object
-     * @throws SlimPayIframeException|GuzzleException
+     * @throws SlimPayPhpException|GuzzleException
      */
     public function request(string $method, string $endpoint, array $params): object
     {
@@ -80,7 +80,7 @@ class Client
 
         } catch (ConnectException $e) {
             // Connection exception (no internet, timeout...).
-            throw new SlimPayIframeException($e->getMessage(), 0, $e);
+            throw new SlimPayPhpException($e->getMessage(), 0, $e);
 
         } catch (ClientException $e) {
             // 400 level errors.
@@ -90,18 +90,18 @@ class Client
                 $this->token = $this->getToken();
                 return $this->request($method, $endpoint, $params);
             }
-            throw new SlimPayIframeException($e->getResponse()->getBody(), $e->getCode(), $e);
+            throw new SlimPayPhpException($e->getResponse()->getBody(), $e->getCode(), $e);
 
         } catch (ServerException $e) {
             // 500 level errors.
-            throw new SlimPayIframeException($e->getResponse()->getBody(), $e->getCode(), $e);
+            throw new SlimPayPhpException($e->getResponse()->getBody(), $e->getCode(), $e);
 
         } catch (TooManyRedirectsException $e) {
             // 301 redirects errors.
-            throw new SlimPayIframeException($e->getResponse()->getBody(), $e->getCode(), $e);
+            throw new SlimPayPhpException($e->getResponse()->getBody(), $e->getCode(), $e);
 
         } catch (GuzzleException $e) {
-            throw new SlimPayIframeException($e->getResponse()->getBody(), $e->getCode(), $e);
+            throw new SlimPayPhpException($e->getResponse()->getBody(), $e->getCode(), $e);
         }
 
         return new Response($rawResponse);
@@ -124,7 +124,7 @@ class Client
      *
      * @return object $token
      * @throws GuzzleException
-     * @throws SlimPayIframeException
+     * @throws SlimPayPhpException
      */
     public function getToken(): object
     {
@@ -168,12 +168,12 @@ class Client
         } catch (ClientException $e) {
 
             // Wrong credentials.
-            throw new SlimPayIframeException($e->getResponse()->getBody(), $e->getCode(), $e);
+            throw new SlimPayPhpException($e->getResponse()->getBody(), $e->getCode(), $e);
 
         } catch (ConnectException $e) {
 
             // Connection exception (no internet, timeout...).
-            throw new SlimPayIframeException($e->getMessage(), 0, $e);
+            throw new SlimPayPhpException($e->getMessage(), 0, $e);
         }
     }
 
